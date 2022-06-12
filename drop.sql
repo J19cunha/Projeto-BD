@@ -9,3 +9,5 @@ DROP table ClubePaiva.Guia
 
 DROP table ClubePaiva.Cliente
 DROP table ClubePaiva.funcionario;
+
+DROP view dbo.registoAtividades;

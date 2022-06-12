@@ -1,0 +1,37 @@
+cliente - josé
+
+tem 1 dia de férias
+quer fazer duas atividades - canyoning e canoas
+
+a gerente vai a registo de atividades e vê se no dia em que o josé está disponível, é possivel
+encontrar um ou mais guias disponíveis para as duas atividades.
+
+	- se no dia em que o josé tem interesse não existir reservas, então:
+		- ela vai a atividade, e regista toda a informação sobre a reserva da manhã:
+			. idAtividade é dado por ordem de atribuição
+			. tipo (canyoning e canoas), sendo uma destas reservas para de manhã e outra para de tarde
+			. preço (para cada uma das atividades)
+			. num_pessoas(para cada uma das atividades)
+			. qualquer guia outwork com disponibilidade
+		
+	- se no dia em que o josé tem interesse existir reservas, então:
+		- ela vê quais os guias que não se encontras disponíveis e quais se encontram;
+		- ela vê se alguma das atividades durante esse dia é em comum com as atividades de preferência do cliente;
+		
+		- se não tiver nenhum guia disponível e houver atividades em comum com outros clientes, então:
+			- juntam-se os dois clientes, à mesma atividade(idReserva), no mesmo horario (tipo), com um preço que pode variar ou mandar,
+			adicionando o numero de pessoas(num_pessoas) e mantendo o guia de compromisso.
+		
+		- se tiver guia disponível e houver atividades em comum:
+			(contacta-se os clientes e pergunta-se se ambos aceitam fazer as atividades em conjuntos)
+			- se sim: faz-se o mesmo processo que em cima
+			- se nao: vai se a atividade, regista-se a informação do novo cliente para ambas as horas desejadas com os guias
+			com disponibilidade -> esta informação é reencaminhada para RegistoDeAtividades
+	
+Perante isto, é possível observar toda a informação em RegistoDeAtividades.
+
+
+Canoas de 5 pessoas:
+	- fatos: 1 de XS, 2 de S, 1 M e 1 L
+	- capacete: 3 pequenos, 2 médios
+	- botas: 3 de 37, 2 de 41
