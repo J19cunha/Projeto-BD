@@ -1,13 +1,3 @@
-drop table ClubePaiva.RegistoDeAtividades
-drop table ClubePaiva.Atividade
-drop table ClubePaiva.TipoAtividade
-drop table ClubePaiva.Equipamento
-drop table ClubePaiva.Gerente
-drop table ClubePaiva.Guia
-drop table ClubePaiva.Cliente
-drop table ClubePaiva.Funcionario;
-
-
 create table ClubePaiva.Cliente (
 	nome VARCHAR(255) not null,
 	numCc BIGINT not null,
@@ -45,60 +35,31 @@ create table ClubePaiva.Gerente(
 	PRIMARY KEY(numFunc)
 );
 
-/*todo o material disponivel ate o momento*/
+
+create table ClubePaiva.Atividade(
+	tipo VARCHAR(255) not null, 
+	preco numeric not null, 
+	numPessoas int not null,
+	guia bigint not null FOREIGN KEY REFERENCES ClubePaiva.Guia(numFunc),
+	cliente BIGINT not null FOREIGN KEY REFERENCES ClubePaiva.Cliente(numCc)
+
+	PRIMARY KEY(tipo)
+);
 
 create table ClubePaiva.Equipamento(
 	nomeEquipamento VARCHAR(500) not null, /* fato, botas, capacete, luzes, etc */
 	stock BIGINT not null,	/* tamanhos ou material que se encontram disponíveis */
 	tamanho VARCHAR(10) not null, /* xs, s, m, l, xl, xxl, xxxl*/
-
-	UNIQUE(nomeEquipamento)
-);
-
-/* acho que é meio insignificante esta
-create table ClubePaiva.Equipamento(
-	idEquipamento int not null,
-	tipo VARCHAR(255) not null FOREIGN KEY REFERENCES ClubePaiva.TipoEquipamento(nome_equipamento),
-	
-	PRIMARY KEY(idEquipamento)
-);*/
-
-/* nesta tabela precisa-se de ganhar uma noção de quanto material é necessário para a atividade em específico
-	* acho que criar tabelas para canoas, canyoning, rafting e rivertracking é melhor para que o material aqui
-	* especificado não fosse do geral de atividades
-*/
-
-create table ClubePaiva.TipoAtividade(
-	nome VARCHAR(255) not null, /* canoas, rafting, canyoning e rivertracking */
-	fatos int not null,
-	botas int not null,
-	capacete int not null,
-	luzes int not null,
-	colete int not null,
-	/*etc provavelmente*/
-	/*equipamento VARCHAR(500) not null FOREIGN KEY REFERENCES ClubePaiva.Equipamento(nome_equipamento),*/
-	
-	PRIMARY KEY(nome)
+	atividade varchar(255) not null FOREIGN KEY REFERENCES ClubePaiva.Atividade(tipo),
+	primary key(nomeEquipamento)
 );
 
 
-create table ClubePaiva.Atividade(
-	idAtividade Bigint not null,	/* identifica a atividade */
-	tipo VARCHAR(255) not null FOREIGN KEY REFERENCES ClubePaiva.TipoAtividade(nome),
-	preço numeric not null, 
-	numPessoas int not null,
-	guia bigint not null FOREIGN KEY REFERENCES ClubePaiva.Guia(numFunc),
-	cliente BIGINT not null, /*FOREIGN KEY REFERENCES ClubePaiva.Cliente(numCc)*/
-
-	PRIMARY KEY(idAtividade)
-);
-
-/*-------------------- Tabela com todas as atividades alguma vez realizadas ou por realizar ------------------*/
 CREATE TABLE ClubePaiva.RegistoDeAtividades(
-	idReserva BIGINT not null FOREIGN KEY REFERENCES ClubePaiva.Atividade(idAtividade),
+	idReserva BIGINT not null,
+	atividade varchar(255) FOREIGN KEY REFERENCES ClubePaiva.Atividade(tipo),
 	dataReserva datetime not null,	/* data em que foi feita a reserva da atividade */
 	dataAtividade datetime not null, /* data da atividade */
 
-	PRIMARY KEY(dataAtividade)
+	PRIMARY KEY(idReserva) /*mudei*/
 );
-

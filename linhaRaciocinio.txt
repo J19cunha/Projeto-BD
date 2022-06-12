@@ -30,8 +30,48 @@ encontrar um ou mais guias disponíveis para as duas atividades.
 	
 Perante isto, é possível observar toda a informação em RegistoDeAtividades.
 
-
 Canoas de 5 pessoas:
 	- fatos: 1 de XS, 2 de S, 1 M e 1 L
 	- capacete: 3 pequenos, 2 médios
 	- botas: 3 de 37, 2 de 41
+
+
+
+Rafting-> fato neoprene, botins, camisola térmica, impermeável, colete e capacete. 
+Idade minima: 5anos
+Capacidade máxima de 48 participantes.
+4 Horas
+€220	Uma Pessoa
+€140	Duas Pessoas
+€100	Três Pessoas
+€80	Pessoas num grupo de 4 a 12
+€70	Pessoas num grupo com +13
+Outubro a Maio
+
+
+Canyoning-> fato neoprene, arnês, colete e capacete.
+Idade minima: 5anos
+Capacidade máxima de 12 participantes.
+6 Horas
+€65	Grupos de 2 a 12 Pessoas
+€60	Grupos de 13 a 24 Pessoas
+Maio a Setembro
+
+
+Canoeing -> colete e capacete.
+Idade minima: 4anos
+Capacidade máxima de 24 participantes.
+3 Horas
+€45	Grupos de 2 a 12 Pessoas A partir dos 4 anos
+€40	Grupos de 13 a 24 Pessoas A partir dos 4 anos
+Maio a Setembro
+
+River Trekking -> fato neoprene, colete e capacete. 
+Idade minima: 5anos
+Capacidade máxima de 20 participantes.
+3 Horas
+€40	Grupos de 2 a 12 Pessoas
+€35	Grupos de 13 a 24 Pessoas
+Maio até setembro
+
+
