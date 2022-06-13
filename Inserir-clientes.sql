@@ -1,6 +1,6 @@
 /*-------------------- Tabelas de clientes -------------------------- */
 
-INSERT INTO ClubePaiva.Cliente (Nome,telefone,email,numCc)
+INSERT INTO ClubePaiva.Cliente (nome,telefone,email,numCc)
 VALUES
   ('Lucas Gill','(351) 912283587','auctor.odio.a@google.com',327082294),
   ('Madonna Burke','(351) 961276268','quam.a.felis@aol.com',743247154),
@@ -11,7 +11,7 @@ VALUES
   ('Matthew Dalton','(351) 987294577','est.tempor@yahoo.edu',481419663);
 
 
-INSERT INTO ClubePaiva.Cliente (Nome,telefone,email,numCc)
+INSERT INTO ClubePaiva.Cliente (nome,telefone,email,numCc)
 VALUES
   ('Ramona Suarez','(351) 96077827','arcu.imperdiet.ullamcorper@aol.net',689880995),
   ('Odette Sanford','(351) 952267411','cursus.luctus.ipsum@yahoo.org',896141312),
@@ -46,10 +46,7 @@ select * from ClubePaiva.Funcionario
 
 INSERT INTO ClubePaiva.Guia(numFunc)
 VALUES
-/*  ('2022-06-18 10:48:03', 53,'2021-06-18'),
-  ('2022-06-16 19:47:04', 12, '2021-06-18'),
-  ('2022-06-15 18:46:05', 3, '2021-06-18'),
-  ('2022-06-13 16:44:07', 50, '2021-06-18'); */
+
   (10),
   (14),
   (3),
@@ -65,10 +62,7 @@ select * from ClubePaiva.Guia
 
 INSERT INTO ClubePaiva.Gerente(numFunc)
 VALUES
-/*  ('2022-06-18 10:48:03', 53,'2021-06-18'),
-  ('2022-06-16 19:47:04', 12, '2021-06-18'),
-  ('2022-06-15 18:46:05', 3, '2021-06-18'),
-  ('2022-06-13 16:44:07', 50, '2021-06-18'); */
+
   (44);
 
 select * from ClubePaiva.Gerente
