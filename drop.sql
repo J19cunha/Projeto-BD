@@ -1,5 +1,6 @@
 drop table ClubePaiva.RegistoDeAtividades
-drop table ClubePaiva.Equipamento
+drop table ClubePaiva.EquipamentoParaAtividades
+drop table ClubePaiva.EquipamentoDisponível
 drop table ClubePaiva.Atividades
 drop table ClubePaiva.Gerente
 drop table ClubePaiva.Guia

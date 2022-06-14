@@ -70,46 +70,51 @@ select * from ClubePaiva.Gerente
 
 /*-------------------- Tabela de equipamento -------------------------- */
 
-INSERT INTO ClubePaiva.Equipamento(nomeEquipamento,stock,tamanho)
+INSERT INTO ClubePaiva.EquipamentoDisponível(nomeEquipamento,stock,tamanho)
 VALUES
  ('colete',5,'XS'),
- ('botas',20,'38'),
- ('capacete',3,'XS');
+ ('colete',10,'S'),
+ ('colete',10,'M'),
+ ('colete',10,'L'),
+ ('colete',5,'XL');
  /*etc*/
 
-select * from ClubePaiva.Equipamento 
+select * from ClubePaiva.EquipamentoDisponível
 
-/*-------------------- Tabela de tipo de atividades -------------------------- */
+/*-------------------- Tabela de equipamento para atividades -------------------------- */
 
-INSERT INTO ClubePaiva.TipoAtividade(nome,fatos,botas,capacete,luzes,colete)
+INSERT INTO ClubePaiva.EquipamentoParaAtividades(idAtividade,nomeEquipamento,quantidade,tamanho)
 VALUES
- ('canoas',5,5,5,0,5),
- ('canyoning',0,3,3,3,0),
- ('rivertracking',0,6,0,0,6),
- ('rafting',11,0,11,0,11);
+ (1,'colete',1,'XS'),
+ (1,'colete',2,'S'),
+ (2,'colete',3,'M'),
+ (2,'colete',4,'L'),
+ (3,'colete',2,'XL');
+ /*etc*/
 
-select * from ClubePaiva.TipoAtividade 
+select * from ClubePaiva.EquipamentoParaAtividades
+
 
 /*-------------------- Tabela de atividades --------------------------*/
 
-INSERT INTO ClubePaiva.Atividade(idAtividade,tipo,preço,numPessoas,guia,cliente)
+INSERT INTO ClubePaiva.Atividades(idAtividade,tipo,preco,numPessoas,guia,cliente)
 VALUES
- (20, 'canoas', 254.00, 5, 10,327082294),
- (37,'canyoning',20.00, 3, 14,665108046),
- (43,'rivertracking',40.00, 6, 3,518245134),
- (68,'rafting', 120.00, 11, 12,145588537);
+ (1,'canoas', 254.00, 5, 10,327082294),
+ (2,'canyoning',20.00, 3, 14,665108046),
+ (3,'rivertracking',40.00, 6, 3,518245134),
+ (4,'rafting', 120.00, 11, 12,145588537);
  
 
- select * from ClubePaiva.Atividade
+ select * from ClubePaiva.Atividades
 
  /*-------------------- Tabela de atividades registadas --------------------------*/
 
-INSERT INTO ClubePaiva.RegistoDeAtividades(idReserva,dataReserva,dataAtividade)
+INSERT INTO ClubePaiva.RegistoDeAtividades(idAtividade,dataReserva,dataAtividade)
 VALUES
 
- (20, '2022-06-11 13:41:00','2022-06-11 13:41:00'),
- (37, '2022-06-10 14:42:09','2022-06-10 14:42:09'),
- (43, '2022-06-12 15:43:08','2022-06-12 15:43:08'),
- (68, '2022-06-13 16:44:07','2022-06-13 16:44:07');
+ (1,'2022-06-11 13:41:00','2022-06-11 13:41:00'),
+ (2,'2022-06-10 14:42:09','2022-06-10 14:42:09'),
+ (3,'2022-06-12 15:43:08','2022-06-12 15:43:08'),
+ (4,'2022-06-13 16:44:07','2022-06-13 16:44:07');
 
 select * from ClubePaiva.RegistoDeAtividades
