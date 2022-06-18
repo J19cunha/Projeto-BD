@@ -1,6 +1,6 @@
 /*-------------------- Tabelas de clientes -------------------------- */
 
-INSERT INTO ClubePaiva.Cliente (nome,telefone,email,numCc)
+INSERT INTO ClubePaiva.Cliente (nome,telefone,email,NIF)
 VALUES
   ('Lucas Gill','(351) 912283587','auctor.odio.a@google.com',327082294),
   ('Madonna Burke','(351) 961276268','quam.a.felis@aol.com',743247154),
@@ -11,7 +11,7 @@ VALUES
   ('Matthew Dalton','(351) 987294577','est.tempor@yahoo.edu',481419663);
 
 
-INSERT INTO ClubePaiva.Cliente (nome,telefone,email,numCc)
+INSERT INTO ClubePaiva.Cliente (nome,telefone,email,NIF)
 VALUES
   ('Ramona Suarez','(351) 96077827','arcu.imperdiet.ullamcorper@aol.net',689880995),
   ('Odette Sanford','(351) 952267411','cursus.luctus.ipsum@yahoo.org',896141312),
@@ -28,7 +28,7 @@ select * from ClubePaiva.Cliente
 
 /*-------------------- Tabela de funcionarios --------------------------*/
 
-INSERT INTO ClubePaiva.Funcionario (nome,numCc,telefone,email,numFunc,dataEntrada)
+INSERT INTO ClubePaiva.Funcionario (nome,NIF,telefone,email,numFunc,dataEntrada)
 VALUES
   ('Ana Soares','123456789','918583780','a@mail.com',53,'2021-06-18'),
   ('Paulo Cunha','123456789','918583781','b@mail.com', 12,'2021-06-18'),
@@ -87,7 +87,7 @@ INSERT INTO ClubePaiva.EquipamentoParaAtividades(idAtividade,nomeEquipamento,qua
 VALUES
  (1,'colete',1,'XS'),
  (1,'colete',2,'S'),
- (2,'colete',3,'M'),
+ (1,'colete',3,'M'),
  (2,'colete',4,'L'),
  (3,'colete',2,'XL');
  /*etc*/
@@ -97,24 +97,35 @@ select * from ClubePaiva.EquipamentoParaAtividades
 
 /*-------------------- Tabela de atividades --------------------------*/
 
-INSERT INTO ClubePaiva.Atividades(idAtividade,tipo,preco,numPessoas,guia,cliente)
-VALUES
- (1,'canoas', 254.00, 5, 10,327082294),
- (2,'canyoning',20.00, 3, 14,665108046),
- (3,'rivertracking',40.00, 6, 3,518245134),
- (4,'rafting', 120.00, 11, 12,145588537);
- 
 
- select * from ClubePaiva.Atividades
+INSERT INTO ClubePaiva.Atividades(tipo,preco,numPessoas,guia)
+VALUES
+ ('canoas', 254.00, 5, 10),
+ ('canyoning',20.00, 3, 14),
+ ('rivertracking',40.00, 6, 3),
+ ('rafting', 120.00, 11, 12);
+ 
+ SELECT SCOPE_IDENTITY() AS [Last-Inserted Identity Value];
+
+ select * from ClubePaiva.Atividades;
+
 
  /*-------------------- Tabela de atividades registadas --------------------------*/
 
-INSERT INTO ClubePaiva.RegistoDeAtividades(idAtividade,dataReserva,dataAtividade)
+INSERT INTO ClubePaiva.RegistoDeAtividades(cliente,idAtividade,dataReserva,dataAtividade)
 VALUES
 
- (1,'2022-06-11 13:41:00','2022-06-11 13:41:00'),
- (2,'2022-06-10 14:42:09','2022-06-10 14:42:09'),
- (3,'2022-06-12 15:43:08','2022-06-12 15:43:08'),
- (4,'2022-06-13 16:44:07','2022-06-13 16:44:07');
+ (327082294,1,'2022-06-11 13:41:00','2022-06-11 13:41:00'),
+ (518245134,3,'2022-06-12 15:43:08','2022-06-12 15:43:08'),
+ (145588537,4,'2022-06-13 16:44:07','2022-06-13 16:44:07');
 
 select * from ClubePaiva.RegistoDeAtividades
+
+
+ /*
+DBCC CHECKIDENT ('clubePaiva.Atividades', RESEED, 5 )
+
+INSERT INTO ClubePaiva.Atividades(tipo,preco,numPessoas,guia,cliente) VALUES('rafting', 120.00, 11, 12,145588537)  */
+
+
+

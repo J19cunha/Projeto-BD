@@ -2,8 +2,8 @@ create table ClubePaiva.Cliente (
 	nome VARCHAR(255) not null,
 	telefone VARCHAR(100) not null,
 	email VARCHAR(255) not null,
-	numCc BIGINT not null,
-	PRIMARY KEY (numCc)			
+	NIF BIGINT not null,
+	PRIMARY KEY (NIF)			
 );
 
 
@@ -11,7 +11,7 @@ create table ClubePaiva.Funcionario(
 	nome VARCHAR(255) not null,
 	telefone VARCHAR(100) not null,
 	email VARCHAR(100) not null,
-	numCc BIGINT not null,
+	NIF BIGINT not null,
 	numFunc BIGINT not null,
 	dataEntrada date not null,	/* importante para ter uma noção de há quanto tempo trabalha na empresa */
 
@@ -36,12 +36,11 @@ create table ClubePaiva.Gerente(
 
 
 create table ClubePaiva.Atividades(
-	idAtividade bigint not null,
+	idAtividade bigint not null identity(1,1),
 	tipo VARCHAR(255) not null, 
 	preco numeric not null, 
 	numPessoas int not null,
 	guia bigint not null FOREIGN KEY REFERENCES ClubePaiva.Guia(numFunc),
-	cliente BIGINT not null FOREIGN KEY REFERENCES ClubePaiva.Cliente(numCc),
 
 	PRIMARY KEY(idAtividade)
 );
@@ -68,6 +67,7 @@ create table ClubePaiva.RegistoDeAtividades(
 	idAtividade BIGINT not null FOREIGN KEY REFERENCES ClubePaiva.Atividades(idAtividade), 
 	dataReserva datetime not null,	/* data em que foi feita a reserva da atividade */
 	dataAtividade datetime not null, /* data da atividade */
+	cliente BIGINT not null FOREIGN KEY REFERENCES ClubePaiva.Cliente(NIF),
 	/*horaAtividade time not null,*/
 	PRIMARY KEY(idAtividade) /*mudei*/
 );

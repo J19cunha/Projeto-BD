@@ -19,7 +19,7 @@ go
 INSERT INTO ClubePaiva.Cliente VALUES ('Diana','(351) 918583780','rochadc00@ua.pt',2590000000)
 GO
 
---DROP TRIGGER Clube.checkCliente
+DROP TRIGGER Clube.checkCliente
 
 ----------------------------------------------------------------------
 -- Adiciona funcionarios na tabela Funcionario -> ver nas views ou inserts
@@ -47,6 +47,28 @@ GO
 
 DROP TRIGGER ClubePaiva.checkFuncionario
 
+
+-----------------------------------------------------------
+create trigger check_dates on ClubePaiva.RegistoDeAtividades
+instead of insert
+as 
+	begin
+			declare @dataReserva datetime;
+			declare @dataAtividade datetime;
+
+			select @dataReserva=dataReserva, @dataAtividade=dataAtividade from inserted;
+
+			if @dataReserva > @dataAtividade 
+				begin
+					raiserror ('A data de atividade tem de ser depois da data de reserva!',16,1);
+					rollback tran;
+				end
+	end
+go
+
+drop table check_dates;
+
+insert into clubePaiva.RegistoDeAtividades (dataReserva,dataAtividade) values ('2022-06-12 15:43:08','2022-06-13 16:44:07')
 
 
 /*
@@ -113,28 +135,3 @@ DROP TRIGGER ClubePaiva.checkGerente
 
 */
 
-----------------------------------------------------------------------
--- Adiciona atividade a tabela Atividades -> ver nas views ou inserts
-
-create trigger ClubePaiva.checkAtividades on ClubePaiva.Atividades
-instead of insert
-as
-	begin
-			declare @idAtividade bigint;
-			declare @tipo varchar(255);
-			declare @preco numeric;
-			declare @numPessoas int;
-			declare @guia bigint;
-			declare @cliente bigint;
-			select @idAtividade=idAtividade, @tipo=tipo, @preco=preco, @numPessoas=numPessoas, @guia=guia, @cliente=cliente from inserted;
-				if (([dbo].[checkAtividades](@idAtividade) = 0))
-					insert into ClubePaiva.Atividades(idAtividade,tipo,preco,numPessoas,guia,cliente) values (@idAtividade, @tipo, @preco, @numPessoas,@guia, @cliente);
-				else 
-					raiserror('Já existe esta atividade!',16,1);
-	end
-go
-
-INSERT INTO ClubePaiva.Atividades VALUES (7,'canoas', 254.00, 5, 10,327082294)
-GO
-
-DROP TRIGGER ClubePaiva.checkAtividades

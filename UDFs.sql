@@ -3,10 +3,11 @@
 drop function dbo.checkCliente
 drop function dbo.checkFuncionario
 drop function dbo.checkGuia
+drop function dbo.checkGerente
 drop function dbo.checkAtividades
 drop function dbo.checkDataAtividade
 drop function dbo.checkEquipamento
-drop function dbo.checkAtividadesAndData
+/*drop function dbo.checkAtividadesAndData*/
 drop function dbo.checkEquipamentoSelected
 
 -- Verificar se o cliente já existe ou não
@@ -66,10 +67,10 @@ go
 
 -- Verificar se aquela atividade com aquele id já existe
 
-create function [dbo].checkAtividades(@idAtividade bigint) returns int
+create function [dbo].checkAtividades(@tipo varchar(255), @preco numeric,@numPessoas int,@guia bigint,@cliente bigint) returns int
 as
 	begin
-			if exists(select * from ClubePaiva.Atividades as rA where rA.idAtividade = idAtividade )
+			if exists(select * from ClubePaiva.Atividades as rA where rA.tipo=tipo and rA.preco=preco and rA.numPessoas=numPessoas and rA.guia=guia and rA.cliente=cliente )
 				return 1;
 			return 0;
 	end
