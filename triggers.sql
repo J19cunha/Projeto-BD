@@ -8,18 +8,32 @@ as
 			declare @telefone varchar(100);
 			declare @email varchar(255);
 			declare @numCc bigint;
-			select @nome=nome, @telefone=telefone, @email=email, @numCc=numCc from inserted;
-				if (([dbo].[checkCliente](@nome, @telefone, @email, @numCc) = 0))
-					insert into ClubePaiva.Cliente(nome,telefone,email,numCc) values (@nome, @telefone, @email, @numCc);
+			select @nome=nome, @telefone=telefone, @email=email, @numCc=NIF from inserted;
+				if (([dbo].[checkCliente](@numCc) = 0))
+					insert into ClubePaiva.Cliente(nome,telefone,email,NIF) values (@nome, @telefone, @email, @numCc);
 				else
 					raiserror('Já existe este cliente!',16,1);
 	end
 go
+DROP TRIGGER ClubePaiva.checkCliente
 
-INSERT INTO ClubePaiva.Cliente VALUES ('Diana','(351) 918583780','rochadc00@ua.pt',2590000000)
-GO
 
-DROP TRIGGER Clube.checkCliente
+create trigger ClubePaiva.checkCliente on ClubePaiva.Cliente
+instead of delete
+as
+	begin
+			declare @nome varchar(255);
+			declare @telefone varchar(100);
+			declare @email varchar(255);
+			declare @numCc bigint;
+			select @nome=nome, @telefone=telefone, @email=email, @numCc=NIF from inserted;
+				if (([dbo].[checkCliente](@numCc) = 0))
+					insert into ClubePaiva.Cliente(nome,telefone,email,NIF) values (@nome, @telefone, @email, @numCc);
+				else
+					raiserror('Já existe este cliente!',16,1);
+	end
+go
+DROP TRIGGER ClubePaiva.checkCliente
 
 ----------------------------------------------------------------------
 -- Adiciona funcionarios na tabela Funcionario -> ver nas views ou inserts
@@ -34,9 +48,9 @@ as
 			declare @numCc bigint;
 			declare @numFunc bigint;
 			declare @dataEntrada date;
-			select @nome=nome, @telefone=telefone, @email=email, @numCc=numCc, @numFunc=numFunc, @dataEntrada=dataEntrada from inserted;
+			select @nome=nome, @telefone=telefone, @email=email, @numCc=NIF, @numFunc=numFunc, @dataEntrada=dataEntrada from inserted;
 				if (([dbo].[checkFuncionario](@nome, @telefone, @email, @numCc, @numFunc, @dataEntrada) = 0))
-					insert into ClubePaiva.Funcionario(nome,telefone,email,numCc,numFunc,dataEntrada) values (@nome, @telefone, @email, @numCc,@numFunc, @dataEntrada);
+					insert into ClubePaiva.Funcionario(nome,telefone,email,NIF,numFunc,dataEntrada) values (@nome, @telefone, @email, @numCc,@numFunc, @dataEntrada);
 				else 
 					raiserror('Já existe este funcionario!',16,1);
 	end
@@ -68,7 +82,7 @@ go
 
 drop table check_dates;
 
-insert into clubePaiva.RegistoDeAtividades (dataReserva,dataAtividade) values ('2022-06-12 15:43:08','2022-06-13 16:44:07')
+
 
 
 /*

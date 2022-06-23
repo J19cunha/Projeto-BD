@@ -12,50 +12,59 @@ create table ClubePaiva.Funcionario(
 	telefone VARCHAR(100) not null,
 	email VARCHAR(100) not null,
 	NIF BIGINT not null,
-	numFunc BIGINT not null,
+	numFunc BIGINT identity(1,1),
 	dataEntrada date not null,	/* importante para ter uma noção de há quanto tempo trabalha na empresa */
 
 	PRIMARY KEY (numFunc)
 );
 
 create table ClubePaiva.Guia(
-	numFunc BIGINT not null FOREIGN KEY REFERENCES ClubePaiva.Funcionario(numFunc),
-	/* dataAtividade datetime not null FOREIGN KEY REFERENCES ClubePaiva.RegistoDeAtividades(dataAtividade),
-	nomeAtividade VARCHAR(255) not null,
-	cliente BIGINT not null FOREIGN KEY REFERENCES ClubePaiva.Cliente(nome,num_cc), */
-
+	nome  VARCHAR(255) not null,
+	numFunc BIGINT FOREIGN KEY REFERENCES ClubePaiva.Funcionario(numFunc),
+	
 	PRIMARY KEY(numFunc)
 );
 
 
 create table ClubePaiva.Gerente(
-	numFunc BIGINT not null FOREIGN KEY REFERENCES  ClubePaiva.Funcionario(numFunc), /* só existe um único gerente de atividades */
+	nome  VARCHAR(255) not null,
+	numFunc BIGINT FOREIGN KEY REFERENCES  ClubePaiva.Funcionario(numFunc), /* só existe um único gerente de atividades */
 
 	PRIMARY KEY(numFunc)
 );
+create table ClubePaiva.AtividadesExistentes(
+	tipoID bigint not null,
+	nome_atividade varchar(255) not null,
+	epoca varchar(255) not null,
+	preco numeric,
+	numMaxPessoas int not null,
+	primary key(tipoID, nome_atividade)
+);
 
-
-create table ClubePaiva.Atividades(
-	idAtividade bigint not null identity(1,1),
-	tipo VARCHAR(255) not null, 
+create table ClubePaiva.RegistoDeAtividades(
+	idAtividade BIGINT not null identity(1,1), 
+	dataReserva datetime not null,	/* data em que foi feita a reserva da atividade */
+	dataAtividade datetime not null, /* data da atividade */
+	cliente BIGINT not null FOREIGN KEY REFERENCES ClubePaiva.Cliente(NIF),
+	tipo varchar(255) not null, 
 	preco numeric not null, 
 	numPessoas int not null,
-	guia bigint not null FOREIGN KEY REFERENCES ClubePaiva.Guia(numFunc),
+	guia bigint FOREIGN KEY REFERENCES ClubePaiva.Guia(numFunc),
 
-	PRIMARY KEY(idAtividade)
+	PRIMARY KEY(idAtividade) /*mudei*/
 );
+
 
 create table ClubePaiva.EquipamentoDisponível(
 	nomeEquipamento VARCHAR(500) not null, /* fato, botas, capacete, luzes, etc */
 	stock BIGINT not null,	/* tamanhos ou material que se encontram disponíveis */
 	tamanho VARCHAR(10) not null, /* xs, s, m, l, xl, xxl, xxxl*/
-	/*atividade varchar(255) not null FOREIGN KEY REFERENCES ClubePaiva.Atividades(tipo),*/
+
 	PRIMARY KEY(nomeEquipamento,tamanho),
 );
 
-
 create table ClubePaiva.EquipamentoParaAtividades(
-	idAtividade bigint not null FOREIGN KEY (idAtividade) REFERENCES ClubePaiva.Atividades(idAtividade),
+	idAtividade bigint not null FOREIGN KEY (idAtividade) REFERENCES ClubePaiva.RegistoDeAtividades(idAtividade),
 	nomeEquipamento varchar(500) not null,
 	quantidade bigint not null,
 	tamanho varchar(10) not null,
@@ -63,11 +72,3 @@ create table ClubePaiva.EquipamentoParaAtividades(
 	PRIMARY KEY(idAtividade,nomeEquipamento,tamanho)
 );
 
-create table ClubePaiva.RegistoDeAtividades(
-	idAtividade BIGINT not null FOREIGN KEY REFERENCES ClubePaiva.Atividades(idAtividade), 
-	dataReserva datetime not null,	/* data em que foi feita a reserva da atividade */
-	dataAtividade datetime not null, /* data da atividade */
-	cliente BIGINT not null FOREIGN KEY REFERENCES ClubePaiva.Cliente(NIF),
-	/*horaAtividade time not null,*/
-	PRIMARY KEY(idAtividade) /*mudei*/
-);

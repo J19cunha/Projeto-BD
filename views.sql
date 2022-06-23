@@ -5,32 +5,32 @@ drop view dbo.Guia
 drop view dbo.Gerente;
 drop view dbo.Funcionario;
 
+create view [dbo].[NIFclientes] as select NIF from ClubePaiva.Cliente
+select * from dbo.NIFclientes
+
+/* QUEREMOS VER Atividade associada aquele registo ATÉ AGORA */
+create view [dbo].[AtividadesRegistadas] as select * from ClubePaiva.RegistoDeAtividades ORDER BY dataAtividade;
+GO
+select * from dbo.AtividadesRegistadas;
+drop view dbo.AtividadesRegistadas
+
 /* QUEREMOS VER O REGISTO DE ATIVIDADES ATÉ AGORA */
-create view [dbo].[registoAtividades] as select idAtividade, dataAtividade from ClubePaiva.RegistoDeAtividades
+create view [dbo].[dataAtividades] as select idAtividade, dataAtividade from ClubePaiva.RegistoDeAtividades
 GO
+drop view dbo.registoAtividades
 
-/* QUEREMOS VER AS ATIVIDADES ASSOCIADAS AO REGISTO */
-create view [dbo].[Atividades] as select idAtividade, tipo,preco, guia from ClubePaiva.Atividades
-GO
 
-/* QUEREMOS AGORA SABER A INFORMAÇÃO DOS CLIENTES ASSOCIADOS ÀS ATIVIDADES VISTAS*/
-create view [dbo].[Cliente] as select nome,NIF from ClubePaiva.Cliente
-GO
 
-/* QUEREMOS AGORA SABER A INFORMAÇÃO DO GUIA ASSOCIADO ÀS ATIVIDADES*/
-/* merda disto é que para ver o nome temos de ir a funcionario,e nao guia*/
-create view [dbo].[Guia] as select numFunc from ClubePaiva.Guia
-GO
+/*QUEREMOS VER o nome da atividade associado ao id*/
 
-/* QUEREMOS AGORA SABER A INFORMAÇÃO DO GERENTE ASSOCIADO ÀS ATIVIDADES*/
-/* merda disto é que para ver o nome temos de ir a funcionario,e nao guia*/
-create view [dbo].[Gerente] as select numFunc from ClubePaiva.Gerente
+create view [dbo].[NomeAtividades] as select tipoID, nome_atividade, preco from ClubePaiva.AtividadesExistentes
 GO
+select * from dbo.NomeAtividades;
+drop view dbo.NomeAtividades
 
-/* QUEREMOS AGORA SABER A INFORMAÇÃO DOS FUNCIONARIOS*/
-/* merda disto é que para ver o nome temos de ir a funcionario,e nao guia*/
-create view [dbo].[Funcionario] as select nome,numFunc from ClubePaiva.Funcionario
-GO
+create view [dbo].[Guia] as select nome,numFunc from ClubePaiva.Guia
+go
+
 
 select * from dbo.registoAtividades;
 select * from dbo.Atividades;
@@ -39,6 +39,3 @@ select * from dbo.Guia;
 select * from dbo.Gerente;
 select * from dbo.Funcionario;
 
-/*podemos inserir mais views para ver a informação que desejamos mas meio worthless*/
-
-select idAtividade,tipo,guia from Atividades where idAtividade=4;
