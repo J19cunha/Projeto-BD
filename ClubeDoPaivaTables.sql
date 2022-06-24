@@ -64,11 +64,12 @@ create table ClubePaiva.EquipamentoDisponível(
 );
 
 create table ClubePaiva.EquipamentoParaAtividades(
+	idReserva BIGINT identity(1,1),
 	idAtividade bigint not null FOREIGN KEY (idAtividade) REFERENCES ClubePaiva.RegistoDeAtividades(idAtividade),
 	nomeEquipamento varchar(500) not null,
 	quantidade bigint not null,
 	tamanho varchar(10) not null,
 
-	PRIMARY KEY(idAtividade,nomeEquipamento,tamanho)
+	PRIMARY KEY(idReserva)
 );
 

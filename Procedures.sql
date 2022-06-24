@@ -177,17 +177,26 @@ declare @idAtividade bigint
 CREATE PROCEDURE [dbo].[deleteAtividade](@idAtividade bigint)
 AS
 	BEGIN
-		delete from ClubePaiva.RegistosDeAtividades where idAtividade = @idAtividade
+		
+		delete from ClubePaiva.RegistoDeAtividades where idAtividade = @idAtivid
+
 	END
 GO
 drop procedure dbo.deleteAtividade
 
 
-
-
-CREATE PROCEDURE [dbo].[addEquipamento](@idAtividade bigint, @nomeEquipamento VARCHAR(500),@quantidade bigint,@tamanho varchar(10))
+create procedure dbo.checkStock(@tamanho varchar(10),@nomeEquipamento varchar(500))
 as
-	begin transaction
+	begin
+		select * from ClubePaiva.EquipamentoDisponível where nomeEquipamento=@nomeEquipamento and tamanho =@tamanho
+	end
+go
+
+
+
+CREATE PROCEDURE [dbo].[addEquipamento](@idReserva bigint out, @idAtividade bigint, @nomeEquipamento VARCHAR(500),@quantidade bigint,@tamanho varchar(10))
+as
+	begin 
 
 		declare @stock bigint;
 		set @stock = (select e.stock from ClubePaiva.EquipamentoDisponível e where e.nomeEquipamento =@nomeEquipamento and e.tamanho = @tamanho)
@@ -195,22 +204,23 @@ as
 		if @stock > @quantidade
 			begin
 				insert into ClubePaiva.EquipamentoParaAtividades(idAtividade,nomeEquipamento,quantidade,tamanho) values (@idAtividade,@nomeEquipamento, @quantidade,@tamanho)
+				set @idReserva = SCOPE_IDENTITY()
 				UPDATE ClubePaiva.EquipamentoDisponível
 				set stock=stock-@quantidade where nomeEquipamento=@nomeEquipamento and tamanho=@tamanho
-				commit tran
+				
 			end
 		else
 			begin
 				raiserror('Não existe stock para esse equipamento!',16,1);
-				rollback tran
+				
 			end
-		
+	end
 go
 drop procedure dbo.addEquipamento
 
 create procedure [dbo].[freeEquipamento](@idAtividade bigint)
 as
-	
+	begin
 	declare @nomeEquipamento varchar(500)
 	declare @quantidade bigint
 	declare @tamanho varchar(10)
@@ -218,16 +228,11 @@ as
 	set @nomeEquipamento = (select ea.nomeEquipamento from ClubePaiva.EquipamentoParaAtividades ea where ea.idAtividade = @idAtividade)
 	set @tamanho = (select ea.tamanho from ClubePaiva.EquipamentoParaAtividades ea where ea.idAtividade = @idAtividade)
 	
-	begin try
-	begin transaction
-		delete from ClubePaiva.EquipamentoParaAtividades where idAtividade=@idAtividade
-		update ClubePaiva.EquipamentoDisponível
-		set stock = stock+ @quantidade where nomeEquipamento =@nomeEquipamento and tamanho =@tamanho
-		commit transaction
-	end try
-	begin catch
-		rollback transaction
-	end catch
+	delete from ClubePaiva.EquipamentoParaAtividades where idAtividade=@idAtividade
+	update ClubePaiva.EquipamentoDisponível
+	set stock = stock+ @quantidade where nomeEquipamento =@nomeEquipamento and tamanho =@tamanho
+		
+	end
 go
 drop procedure dbo.freeEquipamento
 select * from ClubePaiva.EquipamentoParaAtividades

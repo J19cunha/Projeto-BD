@@ -19,7 +19,9 @@ create view [dbo].[dataAtividades] as select idAtividade, dataAtividade from Clu
 GO
 drop view dbo.registoAtividades
 
-
+create view dbo.stock as select * from ClubePaiva.EquipamentoDisponível
+select * from dbo.stock
+select * from ClubePaiva.EquipamentoParaAtividades
 
 /*QUEREMOS VER o nome da atividade associado ao id*/
 
@@ -28,10 +30,12 @@ GO
 select * from dbo.NomeAtividades;
 drop view dbo.NomeAtividades
 
-create view [dbo].[Guia] as select nome,numFunc from ClubePaiva.Guia
-go
 
 
+
+
+
+select * from dbo.equipamento;
 select * from dbo.registoAtividades;
 select * from dbo.Atividades;
 select * from dbo.Cliente;
