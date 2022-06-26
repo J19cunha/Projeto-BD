@@ -40,30 +40,8 @@ DROP TRIGGER ClubePaiva.checkFuncionario
 
 --INSERT INTO ClubePaiva.Funcionario(nome,NIF,telefone,email,dataEntrada) VALUES ('Lucas Gill',327082290,'(351) 912283587','auctor.odio.a@google.com','2021-06-18');
 
-----------------------------------------------------------------------
-/*
-create trigger ClubePaiva.checkGuia on ClubePaiva.Guia
-instead of insert
-as
-	begin	
-			declare @numFunc bigint;
-			declare @nome varchar(255);
-			declare @NIF bigint;
-			select @nome=nome, @numFunc=numFunc, @NIF=NIF from ClubePaiva.Funcionario;
-			if (([dbo].[checkFuncionario](@nome,@NIF) = 1))
-				if (([dbo].[checkGuia](@numFunc) = 0))
-					insert into ClubePaiva.Guia(nome,numFunc) values (@nome, @numFunc);
-				else
-					raiserror('Já existe este guia!',16,1);
-			else
-				raiserror('Não existe um funcionário com estas credenciais',16,1);
-	end
-go
-DROP TRIGGER ClubePaiva.checkGuia
 
-INSERT INTO ClubePaiva.Guia(nome,numFunc) VALUES ('Martuxa',11)
-go
-*/
+
 
 -----------------------------------------------------------
 -- Verificar se não estamos a inserir uma data errada

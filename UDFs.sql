@@ -32,8 +32,8 @@ as
 	end
 go
 
-/*
--- Verificar se o guia já existe ou não (triggers use)
+
+
 
 create function [dbo].checkGuia(@numFunc bigint) returns int
 as
@@ -55,7 +55,7 @@ as
 			return 0;
 	end
 go
-*/
+
 
 -- Verificar se naquele horário existe alguma atividade, em que tipo de atividade consiste, o guia responsável e o id da atividade
 

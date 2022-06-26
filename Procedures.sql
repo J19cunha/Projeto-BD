@@ -100,11 +100,11 @@ s
 
 ------------CREATE GUIA AND FUNCIONARIO--------------------
 
-create procedure [dbo].[createGuia](@nome varchar(255), @telefone varchar(100), @email varchar(255), @NIF bigint, @numFunc bigint out, @dataEntrada date)
+create procedure [dbo].[createGuia](@nome varchar(255), @telefone varchar(100), @email varchar(255), @NIF bigint, @numFunc bigint output, @dataEntrada date)
 as
 		begin Transaction
 		declare @idFunc as bigint;
-		exec dbo.insertFuncionario @nome=@nome, @telefone=@telefone, @email=@email, @NIF=@NIF, @numFunc=@idFunc out, @dataEntrada=@dataEntrada;
+		exec dbo.insertFuncionario @nome=@nome, @telefone=@telefone, @email=@email, @NIF=@NIF, @numFunc=@idFunc output, @dataEntrada=@dataEntrada;
 		insert into ClubePaiva.Guia(nome,numFunc) values (@nome,@idFunc)
 		set @numFunc = @idFunc;
 		if @@ERROR !=0
@@ -114,7 +114,7 @@ as
 go
 
 declare @idFunc bigint;
-exec dbo.createGuia @nome='diana', @telefone ='914193949',@email='joana21cunha@gmail.com',@NIF=257356894,@numFunc=@idFunc out,@dataEntrada='2021-06-18';
+exec dbo.createGuia @nome='camila', @telefone ='914193949',@email='joana21cunha@gmail.com',@NIF=111111111,@numFunc=@idFunc output,@dataEntrada='2021-06-18';
 
 --select * from ClubePaiva.Funcionario
 --select * from ClubePaiva.Guia--
@@ -123,11 +123,11 @@ drop procedure dbo.createGuia
 
 ------------Create GERENTE AND FUNCIONARIO-------------------
 
-create procedure [dbo].[createGerente](@nome varchar(255), @telefone varchar(100), @email varchar(255), @NIF bigint, @numFunc bigint out, @dataEntrada date)
+create procedure [dbo].[createGerente](@nome varchar(255), @telefone varchar(100), @email varchar(255), @NIF bigint, @numFunc bigint output, @dataEntrada date)
 as
 		begin Transaction
 		declare @idFunc as bigint;
-		exec dbo.insertFuncionario @nome=@nome, @telefone=@telefone, @email=@email, @NIF=@NIF, @numFunc=@idFunc out, @dataEntrada=@dataEntrada;
+		exec dbo.insertFuncionario @nome=@nome, @telefone=@telefone, @email=@email, @NIF=@NIF, @numFunc=@idFunc output, @dataEntrada=@dataEntrada;
 		insert into ClubePaiva.Gerente(nome,numFunc) values (@nome,@idFunc)
 		set @numFunc = @idFunc;
 		if @@ERROR !=0
@@ -139,7 +139,7 @@ drop procedure dbo.createGerente
 
 
 declare @idFunc bigint;
-exec dbo.createGerente @nome='Claudio', @telefone ='914193949',@email='joana21cunha@gmail.com',@NIF=257366457,@numFunc=@idFunc out,@dataEntrada='2021-06-18';
+exec dbo.createGerente @nome='Claudio', @telefone ='914193949',@email='joana21cunha@gmail.com',@NIF=257366457,@numFunc=@idFunc output,@dataEntrada='2021-06-18';
 
 
 --------------------AUXILIAR PARA CREATE GUIA E CREATE FUNCIONARIO---------------------------
