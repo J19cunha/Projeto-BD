@@ -1,45 +1,46 @@
-drop view dbo.registoAtividades
-drop view dbo.Atividades
-drop view dbo.Cliente
-drop view dbo.Guia
-drop view dbo.Gerente;
-drop view dbo.Funcionario;
-
-create view [dbo].[NIFclientes] as select NIF from ClubePaiva.Cliente
-select * from dbo.NIFclientes
-
-/* QUEREMOS VER Atividade associada aquele registo ATÉ AGORA */
-create view [dbo].[AtividadesRegistadas] as select * from ClubePaiva.RegistoDeAtividades ORDER BY dataAtividade;
-GO
-select * from dbo.AtividadesRegistadas;
+drop view dbo.dataAtividades
+drop view stock
+drop view stockInUse
+drop view NomeAtividades
 drop view dbo.AtividadesRegistadas
+drop view dbo.NIFclientes
+drop view dbo.NIFfuncionarios
+
+/* QUEREMOS VER OS NIF'S DOS CLIENTES */
+create view [dbo].[NIFclientes] as select NIF,nome from ClubePaiva.Cliente
+go
+select * from dbo.NIFclientes;
+
+/* QUEREMOS VER OS NIF'S DOS FUNCIONÁRIOS */
+create view [dbo].[NIFfuncionarios] as select NIF,nome,numFunc from ClubePaiva.Funcionario
+go
+select * from dbo.NIFfuncionarios;
+
+/* QUEREMOS VER ATIVIDADES POR ORDEM DE DATA DE ATIVIDADE */
+create view [dbo].[AtividadesRegistadas] as select * from ClubePaiva.RegistoDeAtividades;
+go
+select * from dbo.AtividadesRegistadas;
+
 
 /* QUEREMOS VER O REGISTO DE ATIVIDADES ATÉ AGORA */
 create view [dbo].[dataAtividades] as select idAtividade, dataAtividade from ClubePaiva.RegistoDeAtividades
-GO
-drop view dbo.registoAtividades
+go
+select * from dbo.dataAtividades;
 
-create view dbo.stock as select * from ClubePaiva.EquipamentoDisponível
+/* QUEREMOS VER O EQUIPAMENTO DISPONÍVEL NO CLUBE DO PAIVA */
+create view [dbo].[stock] as select * from ClubePaiva.EquipamentoDisponível
+go
 select * from dbo.stock
-select * from ClubePaiva.EquipamentoParaAtividades
+select * from ClubePaiva.EquipamentoParaAtividades /* ver o equipamento deste stock que está a ser utilizado para verificar se não existe mais material usado do que o que temos */
 
-/*QUEREMOS VER o nome da atividade associado ao id*/
+/* QUEREMOS VER O EQUIPAMENTO USADO NUMA ATIVIDADE */
+create view [dbo].[stockInUse] as select nomeEquipamento,quantidade,tamanho from ClubePaiva.EquipamentoParaAtividades
+go
+select * from dbo.stockInUse
 
-create view [dbo].[NomeAtividades] as select tipoID, nome_atividade, preco from ClubePaiva.AtividadesExistentes
-GO
+/* QUEREMOS VER O NOME DA ATIVIDADE ASSOCIADO AO ID */
+create view [dbo].[NomeAtividades] as select tipoID, nome_atividade from ClubePaiva.AtividadesExistentes
+go
 select * from dbo.NomeAtividades;
-drop view dbo.NomeAtividades
 
-
-
-
-
-
-select * from dbo.equipamento;
-select * from dbo.registoAtividades;
-select * from dbo.Atividades;
-select * from dbo.Cliente;
-select * from dbo.Guia;
-select * from dbo.Gerente;
-select * from dbo.Funcionario;
 

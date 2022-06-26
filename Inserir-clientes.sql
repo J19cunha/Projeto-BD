@@ -31,10 +31,10 @@ select * from ClubePaiva.Cliente
 INSERT INTO ClubePaiva.Funcionario (nome,NIF,telefone,email,dataEntrada)
 VALUES
 
-  ('Ana Soares','123456789','918583780','a@mail.com','2021-06-18'),
-  ('Paulo Cunha','123456789','918583781','b@mail.com', '2021-06-18'),
-  ('Diana Pires','123456789','918583782','c@mail.com', '2021-06-18'),
-  ('Francisco Cabral','123456789','918583783','d@mail.com', '2021-06-18');
+  ('Ana Soares',123456789,'918583780','a@mail.com','2021-06-18'),
+  ('Paulo Cunha',123456789,'918583781','b@mail.com', '2021-06-18'),
+  ('Diana Pires',123456789,'918583782','c@mail.com', '2021-06-18'),
+  ('Francisco Cabral',123456789,'918583783','d@mail.com', '2021-06-18');
   
 
   SELECT SCOPE_IDENTITY() AS [Last-Inserted Identity Value];

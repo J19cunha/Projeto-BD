@@ -1,69 +1,77 @@
 -- you can see this information at Programmability -> Functions -> Scalar-valued Functions
 
 drop function dbo.checkCliente
-drop function dbo.checkFuncionario
+drop function dbo.checkFuncionario  
+drop function dbo.checkEquipamento 
+drop function dbo.checkEquipamentoSelected 
+drop function dbo.ClienteAtividades 
+drop function dbo.checkAtividadeAndGuia 
+drop function dbo.EquipamentoInStock 
 drop function dbo.checkGuia
 drop function dbo.checkGerente
-drop function dbo.checkAtividades
-drop function dbo.checkDataAtividade
-drop function dbo.checkEquipamento
-drop function dbo.checkAtividadeinData
-drop function dbo.checkEquipamentoSelected
 
--- Verificar se o cliente já existe ou não
+-- Verificar se o cliente já existe ou não (triggers use)
 
 create function [dbo].checkCliente(@NIF bigint) returns int
 as
 	begin
 			if exists(select * from ClubePaiva.Cliente as c where c.NIF= @NIF )
-			begin
 				return 1;
-			end
 			return 0;
 	end
 go
 
--- Verificar se o funcionario já existe ou não
+-- Verificar se o funcionario já existe ou não (triggers use)
 
-create function [dbo].checkFuncionario(@nome varchar(255), @telefone varchar(100), @email varchar(255), @NIF bigint, @numFunc bigint, @dataEntrada date) returns int
+create function [dbo].checkFuncionario(@NIF bigint,@nome varchar(255)) returns int
 as
 	begin
-			if exists(select * from ClubePaiva.Funcionario as f where f.nome = @nome and f.telefone = telefone and f.email = email and f.NIF = NIF and f.numFunc = numFunc and f.dataEntrada = dataEntrada )
+			if exists(select * from ClubePaiva.Funcionario as f where f.NIF= @NIF)
 				return 1;
 			return 0;
 	end
 go
 
+/*
+-- Verificar se o guia já existe ou não (triggers use)
 
-
-
-
-/* Verificar se aquela atividade já existe naquele horário*/
-
-create function [dbo].checkAtividadeinData(@dataAtividade datetime,@tipo varchar(255)) returns int
+create function [dbo].checkGuia(@numFunc bigint) returns int
 as
 	begin
-			if exists(select * from ClubePaiva.RegistoDeAtividades as rA where (rA.dataAtividade = @dataAtividade and rA.tipo=@tipo) )
+			if exists(select * from ClubePaiva.Guia as g where g.numFunc= @numFunc)
 				return 1;
-			
 			return 0;
 	end
 go
 
-create function [dbo].checkClienteinAtividades(@cliente bigint) returns int
-as 
+
+-- Verificar se o gerente já existe ou não (triggers use)
+
+create function [dbo].checkGerente(@numfunc bigint) returns int
+as
 	begin
-		if exists (select * from ClubePaiva.RegistoDeAtividades as rA where (ra.cliente=@cliente))
-			return 1
-		return 0
+			if exists(select * from ClubePaiva.Gerente as gE where gE.numFunc= @numFunc)
+				return 1;
+			return 0;
 	end
 go
+*/
 
+-- Verificar se naquele horário existe alguma atividade, em que tipo de atividade consiste, o guia responsável e o id da atividade
 
---select * from dbo.atividadesCliente(898107823)  
+create function [dbo].checkAtividadeAndGuia(@dataAtividade datetime) returns table
+as
+	return(select idAtividade,dataAtividade,tipo,guia
+			from ClubePaiva.RegistoDeAtividades as d
+			where d.dataAtividade = @dataAtividade)
+go
+
+--select * from dbo.checkAtividadeAndGuia('2022-08-10 17:00:00') 
 
 
 -----------VER CLIENTES-----------------------
+
+-- VER AS INFORMAÇÕES SOBRE A ATIVIDADE ASSOCIADO AO CLIENTE 
 create function [dbo].ClienteAtividades(@cliente bigint) returns table
 as 
 	return(select c.NIF, c.nome, rA.idAtividade, rA.tipo ,rA.dataAtividade, rA.numPessoas,rA.preco
@@ -73,15 +81,11 @@ as
 go
 
 
-SELECT * from ClubePaiva.RegistoDeAtividades
-drop function dbo.getClientesComAtividades
---select * from dbo.ClienteAtividades(132400127)  
+--select * from ClubePaiva.RegistoDeAtividades
+--select * from dbo.ClienteAtividades(183014872)  
 
 
-
-select * from ClubePaiva.Cliente
-
--- Verificar se aquele equipamento, naquele tamanho, está disponível
+-- Verificar se aquele equipamento, naquele tamanho, está disponível (triggers use)
 
 create function [dbo].checkEquipamento(@nomeEquipamento varchar(500), @quantidade bigint, @tamanho varchar(10)) returns int
 as
@@ -92,9 +96,18 @@ as
 	end
 go
 
+-- Verificar o equipamento que está disponível no stock
 
+create function [dbo].EquipamentoInStock(@nomeEquipamento varchar(500)) returns table
+as 
+	return(select nomeEquipamento,stock, tamanho
+			from ClubePaiva.EquipamentoDisponível as e
+			where e.nomeEquipamento = @nomeEquipamento)
+go
 
--- Verificar se já há equipamento reservado para uma atividade
+--select * from dbo.EquipamentoInStock('colete')  
+
+-- Verificar se já há equipamento reservado para uma atividade (triggers use)
 
 create function [dbo].checkEquipamentoSelected(@idAtividade bigint) returns int
 as
@@ -104,3 +117,16 @@ as
 			return 0;
 	end
 go
+
+
+-- Verificar o equipamento que está disponível no stock
+/*
+create function [dbo].QuantidadeEPessoas(@nomeEquipamento varchar(500)) returns table
+as 
+	return(select e.quantidade,e.nomeEquipamento, q.stock, q.nomeEquipamento
+			from ClubePaiva.EquipamentoParaAtividades as e
+			join ClubePaiva.EquipamentoDisponível as q on e.nomeEquipamento <= q.nomeEquipamento
+			where e.nomeEquipamento = @nomeEquipamento)
+go
+
+select * from dbo.QuantidadeEPessoas('colete')  */
