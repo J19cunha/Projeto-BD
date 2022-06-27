@@ -1,5 +1,5 @@
 # BD-project
-Projeto de BD 
+Projeto de BD - Gestão das atividades de aventura do Clube do Paiva
 
 Joana Cunha, joanasantoscunha@ua.pt
 
